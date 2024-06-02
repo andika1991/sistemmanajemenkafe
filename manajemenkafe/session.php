@@ -19,14 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['first_name'] = $row['first_name'];
             $_SESSION['id'] = $row['id'];
 
-            // Redirect to dashboard or any other page
-            header("Location: index.php");
-            exit();
+          
         } else {
             echo "Invalid password.";
         }
     } else {
-        echo "No user found with this email.";
+        echo "<script>
+        
+        window.location.href = 'login.html';
+          </script>";
     }
+    
 }
 ?>
