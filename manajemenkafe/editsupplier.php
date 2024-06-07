@@ -6,10 +6,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 if (isset($_GET['id'])) {
-    $inventory_id = $_GET['id'];
-
-    // Query to select data based on menu_id
-    $query = "SELECT * FROM inventory WHERE inventory_id='$inventory_id'";
+    $supplier_id = $_GET['id'];
+$query = "SELECT * FROM suppliers  WHERE supplier_id = $supplier_id";
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
@@ -19,9 +17,10 @@ if (isset($_GET['id'])) {
     // Fetch the data
     $row = mysqli_fetch_assoc($result);
 } else {
-    echo "<script>alert('No menu ID specified.'); window.location.href = 'kelolainventory.php';</script>";
+    echo "<script>alert('No menu ID specified.'); window.location.href = 'kelolamenu.php';</script>";
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -158,7 +157,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-house-door icon" style="color: green;"></i>Dashboard
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="kelolapesanan.php">
                     <i class="bi bi-clipboard-check icon" style="color: green;"></i>Kelola Pesanan
                 </a>
@@ -168,12 +167,12 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-cup-hot-fill icon" style="color: green;"></i>Kelola Menu
                 </a>
             </li>
-            <li >
+            <li>
                 <a href="kelolareservasi.php">
                     <i class="bi bi-calendar2-check icon" style="color: green;"></i>Kelola Reservasi
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="kelolainventory.php">
                     <i class="bi bi-box icon" style="color: green;"></i>Kelola Inventory
                 </a>
@@ -226,37 +225,24 @@ if (isset($_GET['id'])) {
             </div>
         </nav>
         <main>
-        <h2>Edit Inventory Cafe</h2>
-<form action="proseseditinventory.php?inventory_id=<?php echo $inventory_id; ?>" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="nama_barang" class="form-label">Nama Barang</label>
-        <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?php echo $row['nama_barang']; ?>" required>
+            <h2>Edit Data Supplier</h2>
+        <form action="proseseditsupplier.php?id=<?php echo $supplier_id; ?>" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+        <label for="nama_supplier" class="form-label">Nama Suplier </label>
+        <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" value="<?php echo $row['nama_supplier']; ?>" required>
     </div>
     <div class="mb-3">
-        <label for="jumlah_barang" class="form-label">Jumlah Barang</label>
-        <input type="number" class="form-control" id="jumlah_barang" name="jumlah_barang" value="<?php echo $row['jumlah']; ?>" required>
-    </div>
-   
-    <div class="mb-3">
-        <label for="kondisi" class="form-label">Kondisi</label>
-        <select class="form-select" id="kondisi" name="kondisi" required>
-            <option value="">Pilih Kondisi</option>
-            <option <?php if ($row['kondisi'] == 'Baik') echo 'selected'; ?>>Baik</option>
-            <option <?php if ($row['kondisi'] == 'Rusak Ringan') echo 'selected'; ?>>Rusak Ringan</option>
-            <option  <?php if ($row['kondisi'] == 'Rusak Berat') echo 'selected'; ?>>Rusak Berat</option>
-    </select>
+        <label for="nomor_telepon" class="form-label">Nomor Telpon</label>
+        <input type="number" class="form-control" id="nomor_telepon" name="nomor_telepon" value="<?php echo $row['nomor_telepon']; ?>" required>
     </div>
     <div class="mb-3">
-            <label for="foto_barang" class="form-label">Foto Barang</label>
-            <input type="file" class="form-control" id="foto_barang" name="foto_barang" >
-            <img src="img/<?php echo $row['foto_barang']; ?>" alt="<?php echo $row['nama_barang']; ?>" class="img-thumbnail mt-2" style="max-width: 150px;">
-        </div>
-   
-    <input type="submit" class="btn btn-primary" value="Update Data Inventory"></input>
+        <label for="alamat" class="form-label">Alamat Suplier </label>
+        <input type="text" class="form-control" id="alamat" name="alamat" value="<?php echo $row['alamat']; ?>" required>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Simpan Perubahan"></input>
 </form>
+</main>
 
-
-        </main>
         <footer class="text-center mt-4">
             <p>&copy; 2024 Serambi Cafe. All rights reserved.</p>
         </footer>

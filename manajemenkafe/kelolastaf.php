@@ -308,7 +308,7 @@ if (!$result) {
 <div id="confirmationModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close" onclick="hideConfirmation()">&times;</span>
-    <p>Apakah Anda yakin ingin menghapus Jadwal Reservasi ini?</p>
+    <p>Apakah Anda yakin ingin menghapus Data Karyawan/Staff ini?</p>
     <button onclick="deleteItem()">Ya</button>
     <button onclick="hideConfirmation()">Batal</button>
   </div>

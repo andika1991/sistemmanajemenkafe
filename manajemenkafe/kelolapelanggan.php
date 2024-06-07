@@ -1,26 +1,18 @@
 <?php
 include 'session.php';
 if (!isset($_SESSION['id'])) {
-    echo "<script>window.location.href = 'login.html';</script>";
+    echo "<script>window.location.href = 'index.html';</script>";
     exit();
 }
 
-if (isset($_GET['id'])) {
-    $inventory_id = $_GET['id'];
+include 'koneksi.php'; // Include the database connection
 
-    // Query to select data based on menu_id
-    $query = "SELECT * FROM inventory WHERE inventory_id='$inventory_id'";
-    $result = mysqli_query($conn, $query);
+// Query to select data from the menu table
+$query = "SELECT * FROM customers ";
+$result = mysqli_query($conn, $query);
 
-    if (!$result) {
-        die("Query failed: " . mysqli_error($conn));
-    }
-
-    // Fetch the data
-    $row = mysqli_fetch_assoc($result);
-} else {
-    echo "<script>alert('No menu ID specified.'); window.location.href = 'kelolainventory.php';</script>";
-    exit();
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
 }
 ?>
 
@@ -142,6 +134,60 @@ if (isset($_GET['id'])) {
             max-width: 100px;
             max-height: 100px;
         }
+
+        .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal {
+  display: none; /* Sembunyikan modal secara default */
+  position: fixed; /* Tetap di posisi */
+  z-index: 1; /* Atur z-index agar modal muncul di atas konten lain */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4); /* Warna latar belakang semi-transparan */
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Lebar konten modal */
+  max-width: 400px; /* Lebar maksimum konten modal */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal-content button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #ddd;
+}
+
+
+.modal-content p {
+  margin-bottom: 15px;
+}
     </style>
 </head>
 
@@ -158,7 +204,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-house-door icon" style="color: green;"></i>Dashboard
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="kelolapesanan.php">
                     <i class="bi bi-clipboard-check icon" style="color: green;"></i>Kelola Pesanan
                 </a>
@@ -173,7 +219,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-calendar2-check icon" style="color: green;"></i>Kelola Reservasi
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="kelolainventory.php">
                     <i class="bi bi-box icon" style="color: green;"></i>Kelola Inventory
                 </a>
@@ -183,7 +229,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-credit-card icon" style="color: green;"></i>Metode Pembayaran
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="kelolastaf.php">
                     <i class="bi bi-people icon" style="color: green;"></i>Kelola Staf
                 </a>
@@ -193,7 +239,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-truck icon" style="color: green;"></i>Kelola Supplier
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="kelolapelanggan.php">
                     <i class="bi bi-person icon" style="color: green;"></i>Kelola Pelanggan
                 </a>
@@ -226,41 +272,72 @@ if (isset($_GET['id'])) {
             </div>
         </nav>
         <main>
-        <h2>Edit Inventory Cafe</h2>
-<form action="proseseditinventory.php?inventory_id=<?php echo $inventory_id; ?>" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="nama_barang" class="form-label">Nama Barang</label>
-        <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?php echo $row['nama_barang']; ?>" required>
-    </div>
-    <div class="mb-3">
-        <label for="jumlah_barang" class="form-label">Jumlah Barang</label>
-        <input type="number" class="form-control" id="jumlah_barang" name="jumlah_barang" value="<?php echo $row['jumlah']; ?>" required>
-    </div>
-   
-    <div class="mb-3">
-        <label for="kondisi" class="form-label">Kondisi</label>
-        <select class="form-select" id="kondisi" name="kondisi" required>
-            <option value="">Pilih Kondisi</option>
-            <option <?php if ($row['kondisi'] == 'Baik') echo 'selected'; ?>>Baik</option>
-            <option <?php if ($row['kondisi'] == 'Rusak Ringan') echo 'selected'; ?>>Rusak Ringan</option>
-            <option  <?php if ($row['kondisi'] == 'Rusak Berat') echo 'selected'; ?>>Rusak Berat</option>
-    </select>
-    </div>
-    <div class="mb-3">
-            <label for="foto_barang" class="form-label">Foto Barang</label>
-            <input type="file" class="form-control" id="foto_barang" name="foto_barang" >
-            <img src="img/<?php echo $row['foto_barang']; ?>" alt="<?php echo $row['nama_barang']; ?>" class="img-thumbnail mt-2" style="max-width: 150px;">
-        </div>
-   
-    <input type="submit" class="btn btn-primary" value="Update Data Inventory"></input>
-</form>
+            <h2>Kelola Data Karyawan</h2>
+            <div class="mb-3">
+                <a href="tambahdatapelanggan.php" class="btn btn-primary">Tambah Data</a>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama </th>
+                        <th>Alamat</th>
+                        <th>Email</th>
+                        <th>Nomor Telepon</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['customer_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nama_pelanggan']); ?></td>
+                            <td><?php echo htmlspecialchars($row['alamat']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nomor_telepon']); ?></td>
+                            <td>
+                                <a href="editpelanggan.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" onclick="showConfirmation(<?php echo $row['customer_id']; ?>)">Delete</a>
 
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+<!-- Modal konfirmasi Hapus-->
+<div id="confirmationModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="hideConfirmation()">&times;</span>
+    <p>Apakah Anda yakin ingin menghapus Data Pelanggan ini?</p>
+    <button onclick="deleteItem()">Ya</button>
+    <button onclick="hideConfirmation()">Batal</button>
+  </div>
+</div>
+
+<script>
+var idToDelete;
+
+function showConfirmation(id) {
+  idToDelete = id;
+  document.getElementById('confirmationModal').style.display = 'block';
+}
+
+function hideConfirmation() {
+  document.getElementById('confirmationModal').style.display = 'none';
+}
+
+function deleteItem() {
+  window.location.href = 'hapus_pelanggan.php?id=' + idToDelete;
+}
+</script>
 
         </main>
         <footer class="text-center mt-4">
             <p>&copy; 2024 Serambi Cafe. All rights reserved.</p>
         </footer>
     </div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

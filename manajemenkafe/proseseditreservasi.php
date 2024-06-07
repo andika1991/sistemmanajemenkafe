@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $catatan = $_POST['catatan'];
     $nama_pelanggan = $_POST['nama_pelanggan'];
 
-    // Query untuk mendapatkan customer_id berdasarkan nama_pelanggan
+
     $query_pelanggan = "SELECT customer_id FROM customers WHERE nama_pelanggan = '$nama_pelanggan'";
     $result_pelanggan = mysqli_query($conn, $query_pelanggan);
 
@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row_pelanggan = mysqli_fetch_assoc($result_pelanggan);
         $customer_id = $row_pelanggan['customer_id'];
 
-        // Query untuk mengupdate data reservasi
+
         $query = "UPDATE reservations SET tanggal_reservasi = '$jadwal_reservasi', jumlah_orang = $jumlah_orang, catatan = '$catatan', customer_id = $customer_id WHERE reservasi_id = $reservasi_id";
 
         if (mysqli_query($conn, $query)) {

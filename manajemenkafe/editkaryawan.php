@@ -1,7 +1,7 @@
 <?php
 include 'session.php';
 if (!isset($_SESSION['id'])) {
-    echo "<script>window.location.href = 'login.html';</script>";
+    echo "<script>window.location.href = 'index.html';</script>";
     exit();
 }
 
@@ -173,7 +173,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-calendar2-check icon" style="color: green;"></i>Kelola Reservasi
                 </a>
             </li>
-            <li class="active">
+            <li >
                 <a href="kelolainventory.php">
                     <i class="bi bi-box icon" style="color: green;"></i>Kelola Inventory
                 </a>
@@ -183,7 +183,7 @@ if (isset($_GET['id'])) {
                     <i class="bi bi-credit-card icon" style="color: green;"></i>Metode Pembayaran
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="kelolastaf.php">
                     <i class="bi bi-people icon" style="color: green;"></i>Kelola Staf
                 </a>
@@ -226,32 +226,34 @@ if (isset($_GET['id'])) {
             </div>
         </nav>
         <main>
-        <h2>Tambah Inventory Cafe</h2>
-<form action="proseseditinventory.php?inventory_id=<?php echo $inventory_id; ?>" method="POST" enctype="multipart/form-data">
-    <input type="hidden" id="inventory_id" name="inventory_id" value="<?php echo $row['inventory_id']; ?>">
+        <h2>Edit Karyawan/Staf Cafe</h2>
+<form action="proseseditkaryawan.php?staff_id=<?php echo $staff_id; ?>" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
-        <label for="nama_barang" class="form-label">Nama Barang</label>
-        <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?php echo $row['nama_barang']; ?>" required>
+        <label for="nama_staf" class="form-label">Nama </label>
+        <input type="text" class="form-control" id="nama_staf" name="nama_staf" value="<?php echo $row['nama_staff']; ?>" required>
     </div>
     <div class="mb-3">
-        <label for="jumlah_barang" class="form-label">Jumlah Barang</label>
-        <input type="number" class="form-control" id="jumlah_barang" name="jumlah_barang" value="<?php echo $row['jumlah']; ?>" required>
+        <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+        <input type="number" class="form-control" id="nomor_telepon" name="nomor_telepon" value="<?php echo $row['nomor_telepon']; ?>" required>
     </div>
-   
     <div class="mb-3">
-        <label for="kondisi" class="form-label">Kondisi</label>
-        <select class="form-select" id="kondisi" name="kondisi" required>
-            <option value="">Pilih Kondisi</option>
-            <option <?php if ($row['kondisi'] == 'Baik') echo 'selected'; ?>>Baik</option>
-            <option <?php if ($row['kondisi'] == 'Rusak Ringan') echo 'selected'; ?>>Rusak Ringan</option>
-            <option  <?php if ($row['kondisi'] == 'Rusak Berat') echo 'selected'; ?>>Rusak Berat</option>
+        <label for="posisi" class="form-label">Posisi</label>
+        <select class="form-select" id="posisi" name="posisi" required>
+            <option value="">Pilih posisi</option>
+            <option <?php if ($row['posisi'] == 'Kasir') echo 'selected'; ?>>Kasir</option>
+            <option <?php if ($row['posisi'] == 'Pelayan') echo 'selected'; ?>>Pelayan</option>
+            <option <?php if ($row['posisi'] == 'Barista') echo 'selected'; ?>>Barista</option>
+            <option <?php if ($row['posisi'] == 'Koki') echo 'selected'; ?>>Koki</option>
+            <option <?php if ($row['posisi'] == 'Karyawan Kebersihan') echo 'selected'; ?>>Karyawan Kebersihan</option>
+            <option <?php if ($row['posisi'] == 'Satpam') echo 'selected'; ?>>Satpam</option>
     </select>
     </div>
     <div class="mb-3">
-            <label for="foto_barang" class="form-label">Foto Barang</label>
-            <input type="file" class="form-control" id="foto_barang" name="foto_barang" >
-            <img src="img/<?php echo $row['foto_barang']; ?>" alt="<?php echo $row['nama_barang']; ?>" class="img-thumbnail mt-2" style="max-width: 150px;">
-        </div>
+        <label for="gaji" class="form-label">Gaji</label>
+        <input type="number" class="form-control" id="gaji" name="gaji" value="<?php echo $row['gaji']; ?>" required>
+    </div>
+
+    
    
     <input type="submit" class="btn btn-primary" value="Update Data Inventory"></input>
 </form>
