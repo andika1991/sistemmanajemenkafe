@@ -32,8 +32,8 @@ if (isset($_GET['id'])) {
                 total_harga = '$total_harga', 
                 status_pesanan = '$status_pesanan', 
               menudibeli = '$rincian_menu_dibeli',
-               orderby = (SELECT nama_pelanggan FROM customers WHERE nama_pelanggan = '$nama_pelanggan'),
-                metodepembayaran = (SELECT nama_metode FROM metodepembayaran WHERE nama_metode = '$metode_pembayaran')
+               customer_id = (SELECT customer_id FROM customers WHERE nama_pelanggan = '$nama_pelanggan'),
+                id_metode = (SELECT id_metode FROM metodepembayaran WHERE nama_metode = '$metode_pembayaran')
             WHERE order_id = $id_pesanan
         ";
 
